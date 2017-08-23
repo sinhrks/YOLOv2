@@ -34,10 +34,10 @@ print("loading model...")
 model = Darknet19Predictor(Darknet19())
 backup_file = "%s/backup.model" % (backup_path)
 if os.path.isfile(backup_file):
-    serializers.load_hdf5(backup_file, model) # load saved model
+    serializers.load_hdf5(backup_file, model)  # load saved model
 model.predictor.train = True
 cuda.get_device(0).use()
-model.to_gpu() # for gpu
+model.to_gpu()  # for gpu
 
 optimizer = optimizers.MomentumSGD(lr=learning_rate, momentum=momentum)
 optimizer.use_cleargrads()
@@ -71,17 +71,19 @@ for batch in range(max_batches):
     one_hot_t.to_gpu()
 
     y, loss, accuracy = model(x, one_hot_t)
-    print("[batch %d (%d images)] learning rate: %f, loss: %f, accuracy: %f" % (batch+1, (batch+1) * batch_size, optimizer.lr, loss.data, accuracy.data))
+    print("[batch %d (%d images)] learning rate: %f, loss: %f, accuracy: %f" % (
+        batch + 1, (batch + 1) * batch_size, optimizer.lr, loss.data, accuracy.data))
 
     optimizer.zero_grads()
     loss.backward()
 
-    optimizer.lr = learning_rate * (1 - batch / max_batches) ** lr_decay_power # Polynomial decay learning rate
+    # Polynomial decay learning rate
+    optimizer.lr = learning_rate * (1 - batch / max_batches) ** lr_decay_power
     optimizer.update()
 
     # save model
-    if (batch+1) % 1000 == 0:
-        model_file = "%s/%s.model" % (backup_path, batch+1)
+    if (batch + 1) % 1000 == 0:
+        model_file = "%s/%s.model" % (backup_path, batch + 1)
         print("saving model to %s" % (model_file))
         serializers.save_hdf5(model_file, model)
         serializers.save_hdf5(backup_file, model)

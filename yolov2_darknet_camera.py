@@ -20,8 +20,10 @@ while(True):
         left, top = result["box"].int_left_top()
         right, bottom = result["box"].int_right_bottom()
         cv2.rectangle(orig_img, (left, top), (right, bottom), (255, 0, 255), 3)
-        text = '%s(%2d%%)' % (result["label"], result["probs"].max()*result["conf"]*100)
-        cv2.putText(orig_img, text, (left, top-7), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        text = '%s(%2d%%)' % (
+            result["label"], result["probs"].max() * result["conf"] * 100)
+        cv2.putText(orig_img, text, (left, top - 7),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         print(text)
 
     cv2.imshow("w", orig_img)

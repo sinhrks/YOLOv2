@@ -6,6 +6,7 @@ import chainer.functions as F
 import argparse
 from yolov2 import *
 
+
 class AnimalPredictor:
     def __init__(self):
         # hyper parameters
@@ -22,7 +23,7 @@ class AnimalPredictor:
         print("loading animal model...")
         yolov2 = YOLOv2(n_classes=self.n_classes, n_boxes=self.n_boxes)
         model = YOLOv2Predictor(yolov2)
-        serializers.load_hdf5(weight_file, model) # load saved model
+        serializers.load_hdf5(weight_file, model)  # load saved model
         model.predictor.train = False
         model.predictor.finetune = False
         self.model = model
@@ -50,7 +51,8 @@ class AnimalPredictor:
         w = F.reshape(w, (self.n_boxes, grid_h, grid_w)).data
         h = F.reshape(h, (self.n_boxes, grid_h, grid_w)).data
         conf = F.reshape(conf, (self.n_boxes, grid_h, grid_w)).data
-        prob = F.transpose(F.reshape(prob, (self.n_boxes, self.n_classes, grid_h, grid_w)), (1, 0, 2, 3)).data
+        prob = F.transpose(F.reshape(
+            prob, (self.n_boxes, self.n_classes, grid_h, grid_w)), (1, 0, 2, 3)).data
         detected_indices = (conf * prob).max(axis=0) > self.detection_thresh
 
         results = []
@@ -58,22 +60,24 @@ class AnimalPredictor:
             results.append({
                 "label": self.labels[prob.transpose(1, 2, 3, 0)[detected_indices][i].argmax()],
                 "probs": prob.transpose(1, 2, 3, 0)[detected_indices][i],
-                "conf" : conf[detected_indices][i],
+                "conf": conf[detected_indices][i],
                 "objectness": conf[detected_indices][i] * prob.transpose(1, 2, 3, 0)[detected_indices][i].max(),
-                "box"  : Box(
-                            x[detected_indices][i]*orig_input_width,
-                            y[detected_indices][i]*orig_input_height,
-                            w[detected_indices][i]*orig_input_width,
-                            h[detected_indices][i]*orig_input_height).crop_region(orig_input_height, orig_input_width)
+                "box": Box(
+                    x[detected_indices][i] * orig_input_width,
+                    y[detected_indices][i] * orig_input_height,
+                    w[detected_indices][i] * orig_input_width,
+                    h[detected_indices][i] * orig_input_height).crop_region(orig_input_height, orig_input_width)
             })
 
         # nms
         nms_results = nms(results, self.iou_thresh)
         return nms_results
 
+
 if __name__ == "__main__":
     # argument parse
-    parser = argparse.ArgumentParser(description="指定したパスの画像を読み込み、bbox及びクラスの予測を行う")
+    parser = argparse.ArgumentParser(
+        description="指定したパスの画像を読み込み、bbox及びクラスの予測を行う")
     parser.add_argument('path', help="画像ファイルへのパスを指定")
     args = parser.parse_args()
     image_file = args.path
@@ -94,6 +98,8 @@ if __name__ == "__main__":
             (255, 0, 255),
             3
         )
-        text = '%s(%2d%%)' % (result["label"], result["probs"].max()*result["conf"]*100)
-        cv2.putText(orig_img, text, (left, top-6), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        text = '%s(%2d%%)' % (
+            result["label"], result["probs"].max() * result["conf"] * 100)
+        cv2.putText(orig_img, text, (left, top - 6),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         print(text)

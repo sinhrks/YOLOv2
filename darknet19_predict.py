@@ -7,7 +7,8 @@ import argparse
 from darknet19 import *
 
 # argument parse
-parser = argparse.ArgumentParser(description="指定したパスの画像を読み込み、darknet19でカテゴリ分類を行う")
+parser = argparse.ArgumentParser(
+    description="指定したパスの画像を読み込み、darknet19でカテゴリ分類を行う")
 parser.add_argument('path', help="クラス分類する画像へのパスを指定")
 args = parser.parse_args()
 
@@ -31,7 +32,7 @@ img = img.transpose(2, 0, 1)
 # load model
 print("loading model...")
 model = Darknet19Predictor(Darknet19())
-serializers.load_hdf5(weight_file, model) # load saved model
+serializers.load_hdf5(weight_file, model)  # load saved model
 model.predictor.train = False
 
 # forward

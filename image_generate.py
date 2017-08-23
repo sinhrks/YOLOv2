@@ -28,8 +28,10 @@ for i, image in enumerate(x):
     image = np.transpose(image, (1, 2, 0)).copy()
     width, height, _ = image.shape
     for truth_box in t[i]:
-        box_x, box_y, box_w, box_h = truth_box['x']*width, truth_box['y']*height, truth_box['w']*width, truth_box['h']*height
-        image = cv2.rectangle(image.copy(), (int(box_x-box_w/2), int(box_y-box_h/2)), (int(box_x+box_w/2), int(box_y+box_h/2)), (0, 0, 255), 3)
+        box_x, box_y, box_w, box_h = truth_box['x'] * width, truth_box['y'] * \
+            height, truth_box['w'] * width, truth_box['h'] * height
+        image = cv2.rectangle(image.copy(), (int(box_x - box_w / 2), int(box_y - box_h / 2)),
+                              (int(box_x + box_w / 2), int(box_y + box_h / 2)), (0, 0, 255), 3)
 
     print(t[i])
     cv2.imshow("w", image)

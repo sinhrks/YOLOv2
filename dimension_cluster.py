@@ -25,6 +25,8 @@ for centroid_index in centroid_indices:
     centroids.append(boxes[centroid_index])
 
 # do k-means
+
+
 def do_kmeans(n_anchors, boxes, centroids):
     loss = 0
     groups = []
@@ -51,6 +53,7 @@ def do_kmeans(n_anchors, boxes, centroids):
         new_centroids[i].h /= len(groups[i])
 
     return new_centroids, groups, loss
+
 
 # iterate k-means
 new_centroids, groups, old_loss = do_kmeans(n_anchors, boxes, centroids)

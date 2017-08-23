@@ -20,11 +20,11 @@ backup_file = "%s/backup.model" % (backup_path)
 batch_size = 16
 max_batches = 30000
 learning_rate = 1e-5
-learning_schedules = { 
-    "0"    : 1e-5,
-    "500"  : 1e-4,
+learning_schedules = {
+    "0": 1e-5,
+    "500": 1e-4,
     "10000": 1e-5,
-    "20000": 1e-6 
+    "20000": 1e-6
 }
 
 lr_decay_power = 4
@@ -51,7 +51,7 @@ model.to_gpu()
 optimizer = optimizers.MomentumSGD(lr=learning_rate, momentum=momentum)
 optimizer.use_cleargrads()
 optimizer.setup(model)
-#optimizer.add_hook(chainer.optimizer.WeightDecay(weight_decay))
+# optimizer.add_hook(chainer.optimizer.WeightDecay(weight_decay))
 
 # start to train
 print("start training")
@@ -59,7 +59,8 @@ for batch in range(max_batches):
     if str(batch) in learning_schedules:
         optimizer.lr = learning_schedules[str(batch)]
     if batch % 80 == 0:
-        input_width = input_height = train_sizes[np.random.randint(len(train_sizes))]
+        input_width = input_height = train_sizes[np.random.randint(
+            len(train_sizes))]
 
     # generate sample
     x, t = generator.generate_samples(
@@ -80,7 +81,8 @@ for batch in range(max_batches):
 
     # forward
     loss = model(x, t)
-    print("batch: %d     input size: %dx%d     learning rate: %f    loss: %f" % (batch, input_height, input_width, optimizer.lr, loss.data))
+    print("batch: %d     input size: %dx%d     learning rate: %f    loss: %f" %
+          (batch, input_height, input_width, optimizer.lr, loss.data))
     print("/////////////////////////////////////")
 
     # backward and optimize
@@ -89,8 +91,8 @@ for batch in range(max_batches):
     optimizer.update()
 
     # save model
-    if (batch+1) % 500 == 0:
-        model_file = "%s/%s.model" % (backup_path, batch+1)
+    if (batch + 1) % 500 == 0:
+        model_file = "%s/%s.model" % (backup_path, batch + 1)
         print("saving model to %s" % (model_file))
         serializers.save_hdf5(model_file, model)
         serializers.save_hdf5(backup_file, model)
