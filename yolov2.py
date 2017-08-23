@@ -91,36 +91,36 @@ class YOLOv2(Chain):
 
     def __call__(self, x):
         ##### common layer
-        h = F.leaky_relu(self.bias1(self.bn1(self.conv1(x), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias1(self.bn1(self.conv1(x), finetune=self.finetune)), slope=0.1)
         h = F.max_pooling_2d(h, ksize=2, stride=2, pad=0)
-        h = F.leaky_relu(self.bias2(self.bn2(self.conv2(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias2(self.bn2(self.conv2(h), finetune=self.finetune)), slope=0.1)
         h = F.max_pooling_2d(h, ksize=2, stride=2, pad=0)
-        h = F.leaky_relu(self.bias3(self.bn3(self.conv3(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias4(self.bn4(self.conv4(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias5(self.bn5(self.conv5(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias3(self.bn3(self.conv3(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias4(self.bn4(self.conv4(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias5(self.bn5(self.conv5(h), finetune=self.finetune)), slope=0.1)
         h = F.max_pooling_2d(h, ksize=2, stride=2, pad=0)
-        h = F.leaky_relu(self.bias6(self.bn6(self.conv6(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias7(self.bn7(self.conv7(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias8(self.bn8(self.conv8(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias6(self.bn6(self.conv6(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias7(self.bn7(self.conv7(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias8(self.bn8(self.conv8(h), finetune=self.finetune)), slope=0.1)
         h = F.max_pooling_2d(h, ksize=2, stride=2, pad=0)
-        h = F.leaky_relu(self.bias9(self.bn9(self.conv9(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias10(self.bn10(self.conv10(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias11(self.bn11(self.conv11(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias12(self.bn12(self.conv12(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias13(self.bn13(self.conv13(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias9(self.bn9(self.conv9(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias10(self.bn10(self.conv10(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias11(self.bn11(self.conv11(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias12(self.bn12(self.conv12(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias13(self.bn13(self.conv13(h), finetune=self.finetune)), slope=0.1)
         high_resolution_feature = reorg(h) # 高解像度特徴量をreorgでサイズ落として保存しておく
         h = F.max_pooling_2d(h, ksize=2, stride=2, pad=0)
-        h = F.leaky_relu(self.bias14(self.bn14(self.conv14(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias15(self.bn15(self.conv15(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias16(self.bn16(self.conv16(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias17(self.bn17(self.conv17(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias18(self.bn18(self.conv18(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias14(self.bn14(self.conv14(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias15(self.bn15(self.conv15(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias16(self.bn16(self.conv16(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias17(self.bn17(self.conv17(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias18(self.bn18(self.conv18(h), finetune=self.finetune)), slope=0.1)
 
         ###### new layer
-        h = F.leaky_relu(self.bias19(self.bn19(self.conv19(h), test=not self.train, finetune=self.finetune)), slope=0.1)
-        h = F.leaky_relu(self.bias20(self.bn20(self.conv20(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias19(self.bn19(self.conv19(h), finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias20(self.bn20(self.conv20(h), finetune=self.finetune)), slope=0.1)
         h = F.concat((high_resolution_feature, h), axis=1) # output concatnation
-        h = F.leaky_relu(self.bias21(self.bn21(self.conv21(h), test=not self.train, finetune=self.finetune)), slope=0.1)
+        h = F.leaky_relu(self.bias21(self.bn21(self.conv21(h), finetune=self.finetune)), slope=0.1)
         h = self.bias22(self.conv22(h))
 
         return h
@@ -160,7 +160,7 @@ class YOLOv2Predictor(Chain):
         conf_learning_scale = np.tile(0.1, conf.shape).astype(np.float32)
 
         tprob = prob.data.copy() # best_anchor以外は学習させない(自身との二乗和誤差 = 0)
-        
+
         # 全bboxとtruthのiouを計算(batch単位で計算する)
         x_shift = Variable(np.broadcast_to(np.arange(grid_w, dtype=np.float32), x.shape[1:]))
         y_shift = Variable(np.broadcast_to(np.arange(grid_h, dtype=np.float32).reshape(grid_h, 1), y.shape[1:]))
@@ -182,7 +182,7 @@ class YOLOv2Predictor(Chain):
                 truth_box_w = Variable(np.broadcast_to(np.array(t[batch][truth_index]["w"], dtype=np.float32), box_w.shape))
                 truth_box_h = Variable(np.broadcast_to(np.array(t[batch][truth_index]["h"], dtype=np.float32), box_h.shape))
                 truth_box_x.to_gpu(), truth_box_y.to_gpu(), truth_box_w.to_gpu(), truth_box_h.to_gpu()
-                ious.append(multi_box_iou(Box(box_x, box_y, box_w, box_h), Box(truth_box_x, truth_box_y, truth_box_w, truth_box_h)).data.get())  
+                ious.append(multi_box_iou(Box(box_x, box_y, box_w, box_h), Box(truth_box_x, truth_box_y, truth_box_w, truth_box_h)).data.get())
             ious = np.array(ious)
             best_ious.append(np.max(ious, axis=0))
         best_ious = np.array(best_ious)
@@ -206,8 +206,8 @@ class YOLOv2Predictor(Chain):
                         truth_n = anchor_index
 
                 # objectの存在するanchorについて、centerを0.5ではなく、真の座標に近づかせる。anchorのスケールを1ではなく真のスケールに近づかせる。学習スケールを1にする。
-                box_learning_scale[batch, truth_n, :, truth_h, truth_w] = 1.0 
-                tx[batch, truth_n, :, truth_h, truth_w] = float(truth_box["x"]) * grid_w - truth_w 
+                box_learning_scale[batch, truth_n, :, truth_h, truth_w] = 1.0
+                tx[batch, truth_n, :, truth_h, truth_w] = float(truth_box["x"]) * grid_w - truth_w
                 ty[batch, truth_n, :, truth_h, truth_w] = float(truth_box["y"]) * grid_h - truth_h
                 tw[batch, truth_n, :, truth_h, truth_w] = np.log(float(truth_box["w"]) / abs_anchors[truth_n][0])
                 th[batch, truth_n, :, truth_h, truth_w] = np.log(float(truth_box["h"]) / abs_anchors[truth_n][1])
@@ -217,7 +217,7 @@ class YOLOv2Predictor(Chain):
                 # IOUの観測
                 full_truth_box = Box(float(truth_box["x"]), float(truth_box["y"]), float(truth_box["w"]), float(truth_box["h"]))
                 predicted_box = Box(
-                    (x[batch][truth_n][0][truth_h][truth_w].data.get() + truth_w) / grid_w, 
+                    (x[batch][truth_n][0][truth_h][truth_w].data.get() + truth_w) / grid_w,
                     (y[batch][truth_n][0][truth_h][truth_w].data.get() + truth_h) / grid_h,
                     np.exp(w[batch][truth_n][0][truth_h][truth_w].data.get()) * abs_anchors[truth_n][0],
                     np.exp(h[batch][truth_n][0][truth_h][truth_w].data.get()) * abs_anchors[truth_n][1]
@@ -257,7 +257,7 @@ class YOLOv2Predictor(Chain):
         h_loss = F.sum((th - h) ** 2 * box_learning_scale) / 2
         c_loss = F.sum((tconf - conf) ** 2 * conf_learning_scale) / 2
         p_loss = F.sum((tprob - prob) ** 2) / 2
-        print("x_loss: %f  y_loss: %f  w_loss: %f  h_loss: %f  c_loss: %f   p_loss: %f" % 
+        print("x_loss: %f  y_loss: %f  w_loss: %f  h_loss: %f  c_loss: %f   p_loss: %f" %
             (F.sum(x_loss).data, F.sum(y_loss).data, F.sum(w_loss).data, F.sum(h_loss).data, F.sum(c_loss).data, F.sum(p_loss).data)
         )
 

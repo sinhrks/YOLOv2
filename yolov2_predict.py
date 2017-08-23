@@ -28,6 +28,8 @@ class AnimalPredictor:
         self.model = model
 
     def __call__(self, orig_img):
+        chainer.using_config('train', False)
+
         orig_input_height, orig_input_width, _ = orig_img.shape
         #img = cv2.resize(orig_img, (640, 640))
         img = reshape_to_yolo_size(orig_img)

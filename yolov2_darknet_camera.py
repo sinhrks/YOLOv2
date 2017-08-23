@@ -5,6 +5,10 @@ import chainer.functions as F
 from yolov2_darknet_predict import CocoPredictor
 
 cap = cv2.VideoCapture(0)
+
+ret = cap.set(3, 640)
+ret = cap.set(4, 480)
+
 coco_predictor = CocoPredictor()
 
 while(True):
